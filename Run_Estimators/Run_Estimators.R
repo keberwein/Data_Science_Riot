@@ -10,22 +10,31 @@ drv = dbDriver("MySQL")
 con = dbConnect(dbDriver("MySQL"), user = "root", password = "password", dbname = "lahman")
 
 ##SQL get dat
+
+##Note the join on the table "Guts." This is a custom table that includes yearly wOBA values
+##The Guts table is only required for wOBA, you can delet the join and the wOBA calculation or
+##you can go to Fangraphs.com and download the Guts table to add to your own database.
 teams = dbSendQuery(con,
-"SELECT yearID, teamID, name,
+"SELECT t.yearID, t.teamID, t.name,
 
-AB, H, 2B, 3B, HR, R, SB,
+t.AB, t.H, t.2B, t.3B, t.HR, t.R, t.SB,
 
-H / AB AS BA,
+t.H / t.AB AS BA,
 
-(H + BB + HBP) / (AB + BB + HBP + SF) AS OBP,
+(t.H + t.BB + t.HBP) / (t.AB + t.BB + t.HBP + t.SF) AS OBP,
 
-((H + BB + HBP) / (AB + BB + HBP + SF)) + (((H-2B-3B-HR) + (2 * 2B) + (3 * 3B) + (4 * HR))/AB) AS OPS,
+((t.H + t.BB + t.HBP) / (t.AB + t.BB + t.HBP + t.SF)) + (((t.H-t.2B-t.3B-t.HR) + (2 * t.2B) + (3 * t.3B) + (4 * t.HR))/t.AB) AS OPS,
 
-(H + 2B + 2 * 3B + 3 * HR) / AB AS SLG
+(t.H + t.2B + 2 * t.3B + 3 * t.HR) / t.AB AS SLG,
 
-FROM Teams
+(g.wBB * (t.BB) + g.wHBP * t.HBP + g.w1B * (t.H-t.2B-t.3B-t.HR) + g.w2B * t.2B + g.w3B * t.3B + g.wHR * t.HR) /
+(t.AB + t.BB + t.SF + t.HBP) AS wOBA
 
-WHERE yearID > 2000")
+FROM Teams t
+Join Guts g
+ON g.yearID = t.yearID
+WHERE t.yearID > 2000
+")
 
 
 Batting = fetch(teams, n = -1)
@@ -36,7 +45,7 @@ plot(Batting$R, Batting$BA, xlab="Runs",
      
 abline(lm(Batting$BA~Batting$R))
 
-cor(Batting$R,Batting$BA)
+cor(Batting$BA,Batting$R)
 
 #OBP
 
@@ -62,6 +71,16 @@ plot(Batting$R, Batting$OPS, xlab="Runs",
 abline(lm(Batting$OPS~Batting$R))
 
 cor(Batting$R,Batting$OPS)
+
+#wOBA
+#Note, this wOBA calculation DOES NOT account for IBB but applies weights to the OPS formula.
+plot(Batting$R, Batting$wOBA, xlab="Runs", 
+     ylab = "wOBA", pch=23, col='brown')
+
+abline(lm(Batting$wOBA~Batting$R))
+
+cor(Batting$R,Batting$wOBA)
+
 
 
 
