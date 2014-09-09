@@ -4,10 +4,10 @@ library('ggplot2')
 library('pitchRx')
 
 #Set working Dir
-setwd("~/Documents/Kris_Docs/R/Baseball/Pitchrx")
+setwd("~/Documents/R/")
 
-#Create database connection
-db <- src_sqlite('/home/kris/dumps/pitchRx.sqlite3')
+#Create connection to pitchRx database
+db <- src_sqlite('/home/dumps/pitchRx.sqlite3')
 
 #Create Subset
 atbat08 <- filter(tbl(db, 'atbat'), date >= '2008_01_01' & date <= '2013_01_01')
