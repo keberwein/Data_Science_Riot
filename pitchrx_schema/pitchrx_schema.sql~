@@ -316,6 +316,8 @@ CREATE TABLE runner
 
 CREATE TABLE umpire
   `position` text,
+  `ump_name` tinyint(4) DEFAULT NULL,
+  `ump_id` tinyint(4) DEFAULT NULL,
   `url` text,
   `gameday_link` text,
   `name` text,
