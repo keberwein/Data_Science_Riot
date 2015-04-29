@@ -1,11 +1,18 @@
+#Load packages and install if you don't have them
+if("DBI" %in% rownames(installed.packages()) == FALSE) {install.packages("DBI")}
+if("RPostgreSQL" %in% rownames(installed.packages()) == FALSE) {install.packages("RPostreSQL")}
+if("dplyr" %in% rownames(installed.packages()) == FALSE) {install.packages("dplyr")}
 library(DBI)
-library(RPostgreSQL)
+library(RMySQL)
 library(dplyr)
 
 #Get the data from Baseball Reference
 if(!file.exists("./data")){dir.create("./data")}
 fileUrl <- "http://www.baseball-reference.com/data/war_daily_bat.txt"
 download.file(fileUrl, destfile="war_daily_bat.csv", method="curl")
+
+#Write the download to a data frame
+df <- read.csv("war_daily_bat.csv", header=TRUE, stringsAsFactors=FALSE)
 
 #Write the download to a data frame
 df <- read.csv("war_daily_bat.csv", header=TRUE)
@@ -57,6 +64,8 @@ names(final)[-1:-3] <- tolower(names(final)[-1:-3])
 # OR
 # Use the database connection that you established earlier to wirte a new table directly to Lahman
 #Write your data frame back to the dbase. I like to write it as a test table first.
-dbWriteTable(con, name='war_batting', value=final, row.names = FALSE)
+if(dbExistsTable(con, "war_batting")) {
+  dbRemoveTable(con, "war_batting")
+  dbWriteTable(con, name='war_batting', value=final, row.names = FALSE)}
 
 ##Now go to the Baseball Reference WAR tables and admire your work!

@@ -1,5 +1,9 @@
+#Load packages and install if you don't have them
+if("DBI" %in% rownames(installed.packages()) == FALSE) {install.packages("DBI")}
+if("RMySQL" %in% rownames(installed.packages()) == FALSE) {install.packages("RMySQL")}
+if("dplyr" %in% rownames(installed.packages()) == FALSE) {install.packages("dplyr")}
 library(DBI)
-library(RPostgreSQL)
+library(RMySQL)
 library(dplyr)
 
 #Get the data from Baseball Reference
@@ -51,6 +55,8 @@ names(final)[names(final)=="team_ID"] <- "teamID"
 # OR
 # Use the database connection that you established earlier to wirte a new table directly to Lahman
 #Write your data frame back to the dbase. I like to write it as a test table first.
-dbWriteTable(con, name='war_batting', value=final, row.names = FALSE)
+if(dbExistsTable(con, "war_pitching")) {
+  dbRemoveTable(con, "war_pitching")
+  dbWriteTable(con, name='war_pitching', value=final, row.names = FALSE)}
 
 ##Now go to the Baseball Reference WAR tables and admire your work!

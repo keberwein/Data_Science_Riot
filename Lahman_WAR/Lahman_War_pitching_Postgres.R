@@ -1,5 +1,9 @@
+#Load packages and install if you don't have them
+if("DBI" %in% rownames(installed.packages()) == FALSE) {install.packages("DBI")}
+if("RPostgreSQL" %in% rownames(installed.packages()) == FALSE) {install.packages("RPostreSQL")}
+if("dplyr" %in% rownames(installed.packages()) == FALSE) {install.packages("dplyr")}
 library(DBI)
-library(RPostgreSQL)
+library(RMySQL)
 library(dplyr)
 
 #Get the data from Baseball Reference
@@ -53,11 +57,12 @@ names(final)[names(final)=="team_ID"] <- "teamid"
 names(final)[-1:-3] <- tolower(names(final)[-1:-3])
 
 
-
 # At this point you can do a write.csv() and load that into your Lahman instance
 # OR
 # Use the database connection that you established earlier to wirte a new table directly to Lahman
 #Write your data frame back to the dbase. I like to write it as a test table first.
-dbWriteTable(con, name='war_pitching', value=final, row.names = FALSE)
+if(dbExistsTable(con, "war_pitching")) {
+  dbRemoveTable(con, "war_pitching")
+  dbWriteTable(con, name='war_pitching', value=final, row.names = FALSE)}
 
 ##Now go to the Baseball Reference WAR tables and admire your work!
