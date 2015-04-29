@@ -12,8 +12,8 @@ df <- read.csv("war_daily_bat.csv", header=TRUE)
 
 #Connect to your Lahman instance so we can grab some data from the master table
 drv <- dbDriver("PostgreSQL")
-con <- dbConnect(drv, host= "localhost", dbname = "kriseberwein", 
-                 user="kriseberwein", password="pissoff")
+con <- dbConnect(drv, host= "localhost", dbname = "lahman", 
+                 user="YOUR USERNAME", password="YOUR PASSWORD")
 
 #SQL the database for playerid on the master table "bbrefid" are the Baseball Reference ids
 master <- dbSendQuery(con, "SELECT playerid, bbrefid FROM master")

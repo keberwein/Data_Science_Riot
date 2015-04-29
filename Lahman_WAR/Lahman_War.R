@@ -12,10 +12,8 @@ df <- read.csv("war_daily_bat.csv", header=TRUE)
 
 #Connect to your Lahman instance so we can grab some data from the master table
 drv <- dbDriver("PostgreSQL")
-con <- dbConnect(drv, host= "localhost", dbname = "kriseberwein", 
-                 user="kriseberwein", password="pissoff")
-#Test connection
-dbListTables(con)
+con <- dbConnect(drv, host= "localhost", dbname = "Lahman", 
+                 user="YOUR USERNAME", password="YOUR PASSWORD")
 
 #SQL the database for playerid on the master table "bbrefid" are the Baseball Reference ids
 master <- dbSendQuery(con, "SELECT playerID, bbrefID FROM master")
@@ -37,7 +35,7 @@ names(t)[names(t)=="yearID"] <- "year_ID"
 df3 <- left_join(df2, t)
 
 #Reorder data frame
-final <- subset(df3, select = c(playerID, year_ID, age, teamid, stint_ID, lg_ID, PA, G, 
+final <- subset(df3, select = c(playerID, year_ID, age, team_ID, stint_ID, lg_ID, PA, G, 
                               Inn, runs_bat, runs_br, runs_dp, runs_field, runs_infield, 
                               runs_outfield, runs_catcher, runs_good_plays, runs_defense, 
                               runs_position, runs_position_p, runs_replacement, runs_above_rep, 
@@ -50,6 +48,7 @@ final <- subset(df3, select = c(playerID, year_ID, age, teamid, stint_ID, lg_ID,
 names(final)[names(final)=="stint_ID"] <- "stint"
 names(final)[names(final)=="lg_ID"] <- "lgID"
 names(final)[names(final)=="year_ID"] <- "yearID"
+names(final)[names(final)=="team_ID"] <- "teamID"
 
 # At this point you can do a write.csv() and load that into your Lahman instance
 # OR
