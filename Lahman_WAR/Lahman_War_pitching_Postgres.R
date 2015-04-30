@@ -1,3 +1,6 @@
+### Open source script for scraping data from BaseballReference.com and laoding in Sean Lahman's Baseball Database.
+### This script is the work of Kris Eberwein and can be found on GitHub at https://github.com/keberwein/Data_Science_Riot/tree/master/Lahman_WAR
+
 #Load packages and install if you don't have them
 require(DBI)
 require(RPostgreSQL)
