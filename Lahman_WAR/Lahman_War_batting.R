@@ -1,10 +1,7 @@
 #Load packages and install if you don't have them
-if("DBI" %in% rownames(installed.packages()) == FALSE) {install.packages("DBI")}
-if("RMySQL" %in% rownames(installed.packages()) == FALSE) {install.packages("RMySQL")}
-if("dplyr" %in% rownames(installed.packages()) == FALSE) {install.packages("dplyr")}
-library(DBI)
-library(RMySQL)
-library(dplyr)
+require(DBI)
+require(RMySQL)
+require(dplyr)
 
 #Get the data from Baseball Reference
 if(!file.exists("./data")){dir.create("./data")}
@@ -54,12 +51,50 @@ names(final)[names(final)=="lg_ID"] <- "lgID"
 names(final)[names(final)=="year_ID"] <- "yearID"
 names(final)[names(final)=="team_ID"] <- "teamID"
 
+# Clean up the data types before loading into Lahman
+# This part is nausiating but necessary...
+final$age <- as.integer(as.character(final$age))
+final$stint <- as.integer(as.character(final$stint))
+final$PA <- as.integer(as.character(final$PA))
+final$G <- as.integer(as.character(final$G))
+final$Inn <- as.integer(as.character(final$Inn))
+final$runs_bat <- as.double(as.character(final$runs_bat))
+final$runs_br <- as.double(as.character(final$runs_br))
+final$runs_dp <- as.double(as.character(final$runs_dp))
+final$runs_field <- as.double(as.character(final$runs_field))
+final$runs_infield <- as.double(as.character(final$runs_infield))
+final$runs_outfield <- as.double(as.character(final$runs_outfield))
+final$runs_catcher <- as.double(as.character(final$runs_catcher))
+final$runs_good_plays <- as.double(as.character(final$runs_good_plays))
+final$runs_position <- as.double(as.character(final$runs_position))
+final$replacement <- as.double(as.character(final$replacement))
+final$runs_above_rep <- as.double(as.character(final$runs_above_rep))
+final$runs_above_avg <- as.double(as.character(final$runs_above_avg))
+final$runs_above_avg_off <- as.double(as.character(final$runs_above_avg_off))
+final$runs_above_avg_def <- as.double(as.character(final$runs_above_avg_def))
+final$WAA <- as.double(as.character(final$WAA))
+final$WAA_off <- as.double(as.character(final$WAA_off))
+final$WAA_def <- as.double(as.character(final$WAA_def))
+final$WAR <- as.double(as.character(final$WAR))
+final$WAR_def <- as.double(as.character(final$WAR_def))
+final$WAR_off <- as.double(as.character(final$WAR_off))
+final$WAR_rep <- as.double(as.character(final$WAR_rep))
+final$salary <- as.integer(as.character(final$salary))
+final$teamrRpG <- as.double(as.character(final$teamRpG))
+final$oppRpG <- as.double(as.character(final$oppRpG))
+final$oppRpPA_rep <- as.double(as.character(final$oppRpPA_rep))
+final$oppRpG_rep <- as.double(as.character(final$oppRpG_rep))
+final$pyth_exponent <- as.double(as.character(final$pyth_exponent))
+final$pyth_exponent_rep <- as.double(as.character(final$pyth_exponent_rep))
+final$waa_win_perc <- as.double(as.character(final$waa_win_perc))
+final$waa_win_perc_off <- as.double(as.character(final$waa_win_perc_off))
+final$waa_win_perc_def <- as.double(as.character(final$waa_win_perc_def))
+final$waa_win_perc_rep <- as.double(as.character(final$waa_win_perc_rep))
+
 # At this point you can do a write.csv() and load that into your Lahman instance
 # OR
 # Use the database connection that you established earlier to wirte a new table directly to Lahman
 #Write your data frame back to the dbase. I like to write it as a test table first.
-if(dbExistsTable(con, "war_batting")) {
-  dbRemoveTable(con, "war_batting")
-  dbWriteTable(con, name='war_batting', value=final, row.names = FALSE)}
+dbWriteTable(con, name='war_batting', value=final, row.names = FALSE, overwrite = TRUE)
 
 ##Now go to the Baseball Reference WAR tables and admire your work!
