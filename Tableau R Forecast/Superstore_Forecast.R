@@ -1,6 +1,4 @@
 library(forcast)
-library(xts)
-
 #Date formatting is bad, convert to correct format
 superstore_fit$Order.Date <- as.Date(as.character(superstore_fit$Order.Date), format="%m/%d/%y")
 #Create time sereis
