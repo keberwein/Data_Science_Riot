@@ -3,17 +3,17 @@ for(p in pkgs) if(p %in% rownames(installed.packages()) == FALSE) {install.packa
 for(p in pkgs) suppressPackageStartupMessages(library(p, quietly=TRUE, character.only=TRUE))
 
 # Set API Keys
-api_key <- "HS5EygF5UzVkFZsR7YboHBk2L"
-api_secret <- "7ejuCMm8VhvTWGVJUfmIUrJ7Se1Fx66vuECrfExMqkaRacqNJx"
-access_token <- "482232051-riEfZIZAkT63mtSV31D1OTkt77o1Zj9CiX2w59Jg"
-access_token_secret <- "EIb9llWKeZXAiG2NmgcwdmvF0z7mi8cFC8LSGuauqmKnq"
+api_key <- "xxxxxxxxxxxxxxxxxx"
+api_secret <- "xxxxxxxxxxxxxxxxxxxxx"
+access_token <- "xxxxxxxxxxxxxxxxxxx"
+access_token_secret <- "xxxxxxxxxxxxxxxx"
 setup_twitter_oauth(api_key, api_secret, access_token, access_token_secret)
 
 # Grab latest tweets
-tweets_trump <- searchTwitter('@realDonaldTrump', n=5000)
-tweets_sanders <- searchTwitter('@BernieSanders', n=5000)
-tweets_clinton <- searchTwitter('@HillaryClinton', n=5000)
-tweets_cruz <- searchTwitter('@tedcruz', n=5000)
+tweets_trump <- searchTwitter('@realDonaldTrump', n=3000)
+tweets_sanders <- searchTwitter('@BernieSanders', n=3000)
+tweets_clinton <- searchTwitter('@HillaryClinton', n=3000)
+tweets_cruz <- searchTwitter('@tedcruz', n=3000)
 
 # Loop over tweets and extract text
 feed_trump = laply(tweets_trump, function(t) t$getText())
@@ -45,6 +45,8 @@ score.sentiment = function(sentences, good_text, bad_text, .progress='none')
         sentence = gsub('[[:punct:]]', '', sentence)
         sentence = gsub('[[:cntrl:]]', '', sentence)
         sentence = gsub('\\d+', '', sentence)
+        #to remove emojis
+        sentence <- iconv(sentence, 'UTF-8', 'ASCII')
         sentence = tolower(sentence)
         
         # split into words. str_split is in the stringr package
@@ -86,6 +88,9 @@ plotdat <- rbind(thedonald, feelthabern, clinton, cruz)
 plotdat <- plotdat[c("name", "score")]
 # Remove neutral values of 0
 plotdat <- plotdat[!plotdat$score == 0, ]
+# Remove anything less than -3 or greater than 3
+plotdat <- plotdat[!plotdat$score > 3, ]
+plotdat <- plotdat[!plotdat$score < (-3), ]
 
 # Nice little quick plot
 qplot(factor(score), data=plotdat, geom="bar", 
@@ -105,3 +110,5 @@ ep <- plotdat %>%
           axis.title.x = element_text(face="bold", colour="#000000", size=8),
           axis.text.x = element_text(angle=16, vjust=0, size=8))
 ggplotly(ep)
+
+write.csv(plotdat, file="super_tues.csv", row.names=FALSE)
