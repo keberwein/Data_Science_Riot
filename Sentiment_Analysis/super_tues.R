@@ -111,4 +111,3 @@ ep <- plotdat %>%
           axis.text.x = element_text(angle=16, vjust=0, size=8))
 ggplotly(ep)
 
-write.csv(plotdat, file="super_tues.csv", row.names=FALSE)
