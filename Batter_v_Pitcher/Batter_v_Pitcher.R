@@ -1,7 +1,7 @@
-library('DBI')
-library('dplyr')
-library('ggplot2')
-library('pitchRx')
+library(DBI)
+library(dplyr)
+library(ggplot2)
+library(pitchRx)
 
 #Set working Dir
 setwd("~/Documents/R/")
@@ -35,8 +35,8 @@ LeePtype <- subset(Cliff_Lee_08, !(pitch_type  %in%  c("IN",  "")))
 
 #Find Pitch type and Stand
 Cliff_Lee_08 %.%
-  group_by(pitch_type, stand) %.%
-  summarise(count = n()) %.%
+  group_by(pitch_type, stand) %>%
+  summarise(count = n()) %>%
   arrange(desc(count))
 
 #Plot pitch types
@@ -60,6 +60,7 @@ strikeFX(Cliff_Lee_08, geom="hex", density1=list(des="Called Strike"), density2=
 noswing <- subset(pitches, des %in% c("Ball", "Called Strike"))
 
 noswing$strike <- as.numeric(noswing$des %in% "Called Strike")
+
 library(mgcv)
 m1 <- bam(strike ~ s(px, pz, by=factor(stand)) +
             factor(stand), data=noswing, family = binomial(link='logit'))
@@ -82,9 +83,9 @@ ggplot(data = MagsPitchTypes) +
   coord_cartesian(xlim = c(-2, 2), ylim = c(1, 4))
 
 #Find Pitch type and Stand
-Lee_v_Mags_08 %.%
-  group_by(pitch_type, stand) %.%
-  summarise(count = n()) %.%
+Lee_v_Mags_08 %>%
+  group_by(pitch_type, stand) %>%
+  summarise(count = n()) %>%
   arrange(desc(count))
 
 
