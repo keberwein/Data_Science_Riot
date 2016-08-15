@@ -36,7 +36,7 @@ data = dbSendQuery(con,
                    WHERE u.position = 'home' AND a.date > '2014_07_01' AND a.date < '2014_09_01'")
 
 #Fetch batting into data frame
-umpZone= fetch(data, n = -1)
+umpZone <- fetch(data, n = -1)
 
 
 #Create list for a specific umpire
