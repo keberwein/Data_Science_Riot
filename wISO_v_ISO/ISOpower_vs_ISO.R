@@ -6,29 +6,24 @@
 
 library(RMySQL)
 
-drv = dbDriver("MySQL")
-con = dbConnect(dbDriver("MySQL"), user = "root", password = "password", dbname = "lahman")
+drv <- dbDriver("MySQL")
+con <- dbConnect(dbDriver("MySQL"), user = "YOUR_USERNAME", 
+                            password = "YOUR_PASSWORD", dbname = "lahman")
 
 ##SQL get dat
-teams = dbSendQuery(con,
-                    "SELECT t.yearID, t.teamID, t.name, R,
-                    
+teams <- dbSendQuery(con,
+                    "SELECT t.yearID, t.teamID, t.name, R,            
                     t.H / t.AB AS BA,
-                    
                     (t.H + t.2B + 2 * t.3B + 3 * t.HR) / t.AB AS SLG,
-                    
                     (t.2B) + (1.9*t.3B) + (3.17*t.HR) / t.AB AS wISO,
-                    
                     (t.2B) + (2*t.3B) + (3*t.HR) / AB AS ISO
-                    
                     FROM Teams t
                     Join Guts g
                     ON g.yearID = t.yearID
                     WHERE t.yearID > 1900 AND t.yearID <> 1981 AND t.yearID <> 1994
                     ")
 
-
-Batting = fetch(teams, n = -1)
+Batting <- fetch(teams, n = -1)
 
 #Batting average
 plot(Batting$R, Batting$BA, xlab="Runs", 
