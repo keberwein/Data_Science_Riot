@@ -34,48 +34,48 @@ f = fetch(fielding, n = -1)
 
 ##Batting: Calculate stats and add them to data frame.
 
-b$PA = (b$AB + b$BB+ b$HBP + b$SF + b$SH) #Plate Appearences
+b$PA <- (b$AB + b$BB+ b$HBP + b$SF + b$SH) #Plate Appearences
 
-b$OBP = round(((b$H+b$BB+b$HBP)/(b$AB+b$BB+b$HBP+b$SF)), 3) #On base %
+b$OBP <- round(((b$H+b$BB+b$HBP)/(b$AB+b$BB+b$HBP+b$SF)), 3) #On base %
 
-b$SLG = round(((b$H+b$'2B'+2*b$'3B'+3*b$HR)/b$AB), 3) #Slugging
+b$SLG <- round(((b$H+b$'2B'+2*b$'3B'+3*b$HR)/b$AB), 3) #Slugging
 
-b$ISO = round((((b$'2B') + (2*b$'3B') + (3*b$'HR')) / b$AB), 3) #Isolated Power
+b$ISO <- round((((b$'2B') + (2*b$'3B') + (3*b$'HR')) / b$AB), 3) #Isolated Power
 
-b$OPS = round(((b$H + b$BB + b$HBP) / (b$AB + b$BB + b$HBP + b$SF)) + (((b$H-b$'2B'-b$'3B'-b$HR) 
+b$OPS <- round(((b$H + b$BB + b$HBP) / (b$AB + b$BB + b$HBP + b$SF)) + (((b$H-b$'2B'-b$'3B'-b$HR) 
         + (2 * b$'2B') + (3 * b$'3B') + (4 * b$HR))/b$AB), 3) #On Base Plus Slugging
 
-b$BABIP = round(((b$H-b$HR)/(b$PA-b$SO-b$BB-b$HR)), 3) #Batting Average on Balls in Play
+b$BABIP <- round(((b$H-b$HR)/(b$PA-b$SO-b$BB-b$HR)), 3) #Batting Average on Balls in Play
 
-b$ContactRate = round(((b$AB-b$SO)/b$AB), 3) #Batter contact rate
+b$ContactRate <- round(((b$AB-b$SO)/b$AB), 3) #Batter contact rate
 
-b$Kpct = round((b$SO/b$PA), 3) #Strikeout Rate 
+b$Kpct <- round((b$SO/b$PA), 3) #Strikeout Rate 
 
-b$BBpct = round((b$BB/b$PA), 3) #Base on Balls rate
+b$BBpct <- round((b$BB/b$PA), 3) #Base on Balls rate
 
 
 ##Pitching Calculate stats and add them to data frame.
 
-p$IP = round((p$IPouts)/3), 3) #Innings Pitched
+p$IP <- round((p$IPouts)/3), 3) #Innings Pitched
 
-p$WHIP = round(((p$BB + p$H) / (p$IPouts/3)), 3)
+p$WHIP <- round(((p$BB + p$H) / (p$IPouts/3)), 3)
 
-p$k_9 = round((p$SO*9)/p$IP, 3) #Strikeouts per 9
+p$k_9 <- round((p$SO*9)/p$IP, 3) #Strikeouts per 9
 
-p$BB_9 = round((p$BB*9)/p$IP, 3) #Walks allowed per 9
+p$BB_9 <- round((p$BB*9)/p$IP, 3) #Walks allowed per 9
 
-p$HR_9 = round((p$HR*9)/p$IP, 3) #Homeruns allowed per 9
+p$HR_9 <- round((p$HR*9)/p$IP, 3) #Homeruns allowed per 9
 
-p$Kpct = round((p$SO/p$BFP), 3)
+p$Kpct <- round((p$SO/p$BFP), 3)
 
-p$BBpct = round((p$BB/p$BFP), 3)
+p$BBpct <- round((p$BB/p$BFP), 3)
 
-p$pBABIP = round(((p$H-p$HR)/(p$BFP-p$SO-p$BB-p$HR)), 3) #Batting Average on Balls in Play
+p$pBABIP <- round(((p$H-p$HR)/(p$BFP-p$SO-p$BB-p$HR)), 3) #Batting Average on Balls in Play
 
 
 ##Fielding Calculate stats and add them to data frame.
 
-f$FldPct = round((f$PO+f$A)/(f$PO+f$A+f$E), 3) #Fielding Percentage
+f$FldPct <- round((f$PO+f$A)/(f$PO+f$A+f$E), 3) #Fielding Percentage
 
 
 ##Optionally you can export these data frames to csv or write them directly to you database with the following:
