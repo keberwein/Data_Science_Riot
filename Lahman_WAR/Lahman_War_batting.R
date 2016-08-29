@@ -28,7 +28,7 @@ teams <- dbSendQuery(con, "SELECT yearID, teamID, teamIDBR FROM teams")
 t <- fetch(teams, n = -1)
 
 #Join master and war data frames
-df2 <- left_join(df, m, by = c("player_ID" = "bbrefID"))
+df2 <- left_join(df, m, by = c("player_ID", "bbrefID"))
 
 # Convert and rename a few things in the teams dataframe to make the join smooth
 t$teamidbr <- as.factor(t$teamidbr)
@@ -46,7 +46,7 @@ final <- subset(df3, select = c(playerID, year_ID, age, team_ID, stint_ID, lg_ID
                               runs_above_avg, runs_above_avg_off, runs_above_avg_def, WAA, WAA_off, 
                               WAA_def, WAR, WAR_def, WAR_off, WAR_rep, salary, pitcher, teamRpG, 
                               oppRpG, oppRpPA_rep, oppRpG_rep, pyth_exponent, pyth_exponent_rep, 
-                              waa_win_perc, waa_win_perc_off, waa_win_perc_def, waa_win_perc_rep))
+                              waa_win_perc, waa_win_perc_off, waa_win_perc_def, waa_win_perc_rep)) 
 
 #Rename a couple of columns in our new tidy data set to fit to Lahman standards
 names(final)[names(final)=="stint_ID"] <- "stint"
