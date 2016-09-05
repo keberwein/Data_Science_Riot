@@ -5,31 +5,31 @@
 library(RMySQL)
 
 ##Connect to your MySQL database wiht the RMySQL package
-drv = dbDriver("MySQL")
-con = dbConnect(dbDriver("MySQL"), user = "root", password = "password", dbname = "lahman")
+drv <- dbDriver("MySQL")
+con <- dbConnect(dbDriver("MySQL"), user = "root", password = "password", dbname = "lahman")
 
 #SQL for Batting table
-batting = dbSendQuery(con,
+batting <- dbSendQuery(con,
                         "SELECT *
                         FROM Batting")
 #Fetch batting into data frame
-b = fetch(batting, n = -1)
+b <- fetch(batting, n = -1)
 
 #SQL for Pitching table
-pitching = dbSendQuery(con,
+pitching <- dbSendQuery(con,
                          "SELECT *
                         FROM Pitching")
 #Fetch pitching into data frame
-p = fetch(pitching, n = -1)
+p <- fetch(pitching, n = -1)
 
 #SQL for fielding table
-fielding = dbSendQuery(con,
+fielding <- dbSendQuery(con,
                        "SELECT *
                         FROM Fielding
                         WHERE yearID = 1901")
 
 #Fetch fielding into data frame
-f = fetch(fielding, n = -1)
+f <- fetch(fielding, n = -1)
 
 
 ##Batting: Calculate stats and add them to data frame.
