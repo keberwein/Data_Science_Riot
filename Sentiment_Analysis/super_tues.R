@@ -22,16 +22,16 @@ feed_clinton = laply(tweets_clinton, function(t) t$getText())
 feed_cruz = laply(tweets_cruz, function(t) t$getText())
 
 # Read in dictionary of positive and negative workds
-yay = scan('opinion-lexicon-English/positive-words.txt',
+yay <- scan('opinion-lexicon-English/positive-words.txt',
                   what='character', comment.char=';')
-boo = scan('opinion-lexicon-English/negative-words.txt',
+boo <- scan('opinion-lexicon-English/negative-words.txt',
                   what='character', comment.char=';')
 # Add a few twitter-specific negative phrases
-bad_text = c(boo, 'wtf', 'wait', 'waiting',
+bad_text <- c(boo, 'wtf', 'wait', 'waiting',
               'epicfail', 'slow')
-good_text = c(yay, 'upgrade', ':)', '#iVoted', 'voted')
+good_text <- c(yay, 'upgrade', ':)', '#iVoted', 'voted')
 
-score.sentiment = function(sentences, good_text, bad_text, .progress='none')
+score.sentiment <- function(sentences, good_text, bad_text, .progress='none')
 {
     require(plyr)
     require(stringr)
