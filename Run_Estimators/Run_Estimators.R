@@ -1,20 +1,20 @@
-##Provides forulas for calculating the coefficient correlation of several baseball battig metrics.
+# Provides forulas for calculating the coefficient correlation of several baseball battig metrics.
 
-###The first section of code is used to gather the data from the Lahman database using a RMySQL connection.
-###I left the code so anyone who doen't have R connected directly to the dbase can still see the
-###required SQL code to gather the requried information.
+# The first section of code is used to gather the data from the Lahman database using a RMySQL connection.
+# I left the code so anyone who doen't have R connected directly to the dbase can still see the
+# required SQL code to gather the requried information.
 
 library(RMySQL)
 
-drv = dbDriver("MySQL")
-con = dbConnect(dbDriver("MySQL"), user = "root", password = "password", dbname = "lahman")
+drv <- dbDriver("MySQL")
+con <- dbConnect(dbDriver("MySQL"), user = "root", password = "password", dbname = "lahman")
 
-##SQL get dat
 
-##Note the join on the table "Guts." This is a custom table that includes yearly wOBA values
-##The Guts table is only required for wOBA, you can delet the join and the wOBA calculation or
-##you can go to Fangraphs.com and download the Guts table to add to your own database.
-teams = dbSendQuery(con,
+# Note the join on the table "Guts." This is a custom table that includes yearly wOBA values
+# The Guts table is only required for wOBA, you can delet the join and the wOBA calculation or
+# you can go to Fangraphs.com and download the Guts table to add to your own database.
+
+teams <- dbSendQuery(con,
 "SELECT t.yearID, t.teamID, t.name,
 
 t.AB, t.H, t.2B, t.3B, t.HR, t.R, t.SB,
@@ -37,7 +37,7 @@ WHERE t.yearID > 2000
 ")
 
 
-Batting = fetch(teams, n = -1)
+Batting <- fetch(teams, n = -1)
 
 #Batting average
 plot(Batting$R, Batting$BA, xlab="Runs", 
