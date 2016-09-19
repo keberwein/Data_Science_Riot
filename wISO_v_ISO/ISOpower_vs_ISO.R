@@ -20,8 +20,7 @@ teams <- dbSendQuery(con,
                     FROM Teams t
                     Join Guts g
                     ON g.yearID = t.yearID
-                    WHERE t.yearID > 1900 AND t.yearID <> 1981 AND t.yearID <> 1994
-                    ")
+                    WHERE t.yearID > 1900 AND t.yearID <> 1981 AND t.yearID <> 1994;")
 
 Batting <- fetch(teams, n = -1)
 
