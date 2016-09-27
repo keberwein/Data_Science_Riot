@@ -3,7 +3,7 @@ require(forecast)
 ###Forecast the Gross Domestic Product
 
 #Set date type
-gdp$Date <- as.Date(gdp$Date, "%Y-%m-%d")
+gdp$Date <- as.Date(as.character(gdp$Date), "%Y-%m-%d")
 
 #Set GDP numeric type
 gdp$GDP <- as.numeric(as.character(gdp$GDP))
