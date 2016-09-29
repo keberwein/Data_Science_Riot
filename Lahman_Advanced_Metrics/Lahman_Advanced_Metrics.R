@@ -84,4 +84,8 @@ f$FldPct <- round((f$PO+f$A)/(f$PO+f$A+f$E), 3) #Fielding Percentage
 
 dbWriteTable(con, name='testbatting', value=b)
 dbWriteTable(con, name='testpitching', value=p)
-dbWriteTable(con, name='testfielding', value=f) 
+dbWriteTable(con, name='testfielding', value=f)
+
+# Close db connections
+dbDisconnect(con)
+rm(con, drv)
