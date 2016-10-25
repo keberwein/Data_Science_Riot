@@ -16,10 +16,10 @@ tweets_clinton <- searchTwitter('@HillaryClinton', n=3000)
 tweets_cruz <- searchTwitter('@tedcruz', n=3000)
 
 # Loop over tweets and extract text
-feed_trump = laply(tweets_trump, function(t) t$getText())
-feed_sanders = laply(tweets_sanders, function(t) t$getText())
-feed_clinton = laply(tweets_clinton, function(t) t$getText())
-feed_cruz = laply(tweets_cruz, function(t) t$getText())
+feed_trump <- laply(tweets_trump, function(t) t$getText())
+feed_sanders <- laply(tweets_sanders, function(t) t$getText())
+feed_clinton <- laply(tweets_clinton, function(t) t$getText())
+feed_cruz <- laply(tweets_cruz, function(t) t$getText())
 
 # Read in dictionary of positive and negative workds
 yay <- scan('opinion-lexicon-English/positive-words.txt',
