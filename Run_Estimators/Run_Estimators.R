@@ -16,20 +16,13 @@ con <- dbConnect(dbDriver("MySQL"), user = "root", password = "password", dbname
 
 teams <- dbSendQuery(con,
 "SELECT t.yearID, t.teamID, t.name,
-
 t.AB, t.H, t.2B, t.3B, t.HR, t.R, t.SB,
-
 t.H / t.AB AS BA,
-
 (t.H + t.BB + t.HBP) / (t.AB + t.BB + t.HBP + t.SF) AS OBP,
-
 ((t.H + t.BB + t.HBP) / (t.AB + t.BB + t.HBP + t.SF)) + (((t.H-t.2B-t.3B-t.HR) + (2 * t.2B) + (3 * t.3B) + (4 * t.HR))/t.AB) AS OPS,
-
 (t.H + t.2B + 2 * t.3B + 3 * t.HR) / t.AB AS SLG,
-
 (g.wBB * (t.BB) + g.wHBP * t.HBP + g.w1B * (t.H-t.2B-t.3B-t.HR) + g.w2B * t.2B + g.w3B * t.3B + g.wHR * t.HR) /
 (t.AB + t.BB + t.SF + t.HBP) AS wOBA
-
 FROM Teams t
 Join Guts g
 ON g.yearID = t.yearID
