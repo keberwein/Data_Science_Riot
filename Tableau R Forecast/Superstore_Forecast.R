@@ -1,4 +1,6 @@
 library(forecast)
+# Read SuperStore data from Github.
+SuperstoreSales <- read.csv("https://raw.githubusercontent.com/keberwein/Data_Science_Riot/master/Tableau%20R%20Forecast/SuperstoreSales.csv")
 # Date formatting is bad, convert to correct format
 SuperstoreSales$Order.Date <- as.Date(as.character(SuperstoreSales$Order.Date), format="%m/%d/%y")
 # Create time sereis
