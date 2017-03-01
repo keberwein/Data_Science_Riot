@@ -6,8 +6,8 @@
 library(RMySQL)
 
 ##Connect to database. Username and password required.
-drv = dbDriver("MySQL")
-con = dbConnect(dbDriver("MySQL"), user = "root", password = "pass", dbname = "lahman")
+drv <- dbDriver("MySQL")
+con <- dbConnect(dbDriver("MySQL"), dbname = "lahman")
 
 #SQl 
 JamesPyth = dbSendQuery(con,
@@ -26,7 +26,7 @@ JamesPyth = dbSendQuery(con,
 FROM Teams 
 WHERE yearID > 1900")
 
-Win = fetch(JamesPyth, n = -1)
+Win <- fetch(JamesPyth, n = -1)
 
 ##Bill James Pythagorean theorem
 #Scatter Plot
